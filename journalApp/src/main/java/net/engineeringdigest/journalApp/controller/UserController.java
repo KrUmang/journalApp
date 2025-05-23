@@ -20,29 +20,25 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
     @GetMapping
-    public List<User> getAllUser(){
-       return userService.getAll();
+    public List<User> getAllUser() {
+        return userService.getAll();
 
     }
 
     @PostMapping
-    public void createUser(@RequestBody User user){
+    public void createUser(@RequestBody User user) {
         userService.saveEntry(user);
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody User user){
-        User userInDb=userService.findByUserName(user.getUsername());
-        if(userInDb!=null){
-            userInDb.setUsername(user.getUsername());
-            userInDb.setPassword(user.getPassword());
-            userService.saveEntry(userInDb);
-        }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
+    @PutMapping("/{userName}")
+    public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable String userName) {
+        User userInDb = userService.findByUserName(userName);
+        if(userInDb != null){
+        userInDb.setPassword(user.getPassword());
+        userService.saveEntry(userInDb);
     }
-
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+}
 
 }
