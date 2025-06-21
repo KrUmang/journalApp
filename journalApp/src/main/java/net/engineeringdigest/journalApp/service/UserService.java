@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +26,7 @@ public class UserService {
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+
     public boolean saveNewUser(User user){
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -32,10 +35,13 @@ public class UserService {
             return true;
         }
         catch (Exception e){
+            log.error("error occured for {}",user.getUserName(),e);
+            log.warn("hahahhahaha");
+            log.info("hahahhahaha");
+            log.debug("hahahhahaha");
+            log.trace("hahahhahaha");
             return false;
         }
-
-
     }
 
     public void saveAdmin(User user){
